@@ -1,6 +1,7 @@
-from _typeshed import OpenTextModeUpdating
-from pynput.keyboard import Key, Controller
+from pynput import keyboard
+from pynput.keyboard import Key, Controller, Listener
 from machine import Pin
+
 Teclado = Controller()
 
 #PinOuts
@@ -24,3 +25,37 @@ b1 = Pin(13, Pin.OUT)
 b2 = Pin(14, Pin.OUT)
 b3 = Pin(15, Pin.OUT)
 
+#detecta Locks
+num = 0
+caps = 0
+scroll = 0
+
+def Pressiona(key):
+    global num, caps, scroll
+    #detecta Caps Lock
+    if key == Key.caps_lock:
+        if (caps == 0):
+            print("GRITO")
+            caps = 1
+        elif  (caps == 1):
+            print("sussurro")
+            caps = 0
+    #detecta Num Lock
+    if key == Key.num_lock:
+        if (num == 0):
+            print("Numerico")
+            num = 1
+        elif (num == 1):
+            print("Alfabetico")
+            num = 0
+    #detecta Scroll Lock
+    if key == Key.scroll_lock:
+        if (scroll == 0):
+            print("Roda")
+            scroll = 1
+        elif (scroll == 1):
+            print("Quadrado")
+            scroll = 0
+
+with Teclado.Listener(on_press=Pressiona) as ouvidor:
+    ouvidor.join()
